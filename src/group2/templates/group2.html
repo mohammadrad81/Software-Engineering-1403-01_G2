@@ -1,17 +1,67 @@
-<!DOCTYPE html>
 {% load static %}
-<html lang="fa">
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>صفحه خانه</title>
-    <link rel="stylesheet" href="{% static 'base/home_style.css' %}">
+    <title>Text & File Processing</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <!-- Add Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="welcome-container">
-        <h1>خوش آمدید به گروه {{ group_number }}
-            میکروسرویس خود را اینجا توسعه دهید
-        </h1>
+    <div class="container">
+        <h1>Text & File Processing</h1>
+
+        <!-- Text Input Section -->
+        <section class="text-input-section">
+            <form id="sentenceForm" method="POST" action="{% url 'group2:get_sentence' %}">
+                {% csrf_token %}
+                <div class="input-group">
+                    <input type="text"
+                           id="sentence"
+                           name="sentence"
+                           placeholder="Enter your sentence here..."
+                           required>
+                    <button type="submit" class="submit-btn">Process Text</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- File Upload Section -->
+        <section class="file-upload-section">
+            <button id="toggleUpload" class="toggle-btn">Toggle File Upload</button>
+
+            <div id="uploadArea" class="upload-area hidden">
+                <form id="fileForm" method="POST" action="{% url 'group2:get_file' %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="file-input-wrapper">
+                        <input type="file"
+                               id="fileInput"
+                               name="file"
+                               accept=".txt"
+                               class="file-input">
+                        <label for="fileInput" class="file-label">
+                            Choose a .txt file
+                        </label>
+                    </div>
+                    <button type="submit" class="upload-btn">Upload File</button>
+                </form>
+                <div id="errorMessage" class="error-message"></div>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section class="results-section">
+            {% if result %}
+                <div class="result-box">
+                    <h3>Result:</h3>
+                    <p>{{ result }}</p>
+                </div>
+            {% endif %}
+        </section>
     </div>
+
+    <script src="{% static 'js/main.js' %}"></script>
 </body>
 </html>

@@ -1,6 +1,7 @@
 from django.test import TestCase
 from .tokenizer import PositionalTokenizer
 from .candidate_generator import CandidateGenerator
+from .language_model import OneGramLanguageModel
 
 # Create your tests here.
 class PositionalTokenizerTestCase(TestCase):
@@ -84,3 +85,20 @@ class CandidateGeneratorTestCase(TestCase):
                                                       f"text: {text}\n" +
                                                       f"expected: {expected_result}\n" +
                                                       f"generated: {candidates}\n")
+        
+
+class OneGramLanguageModelTestCase(TestCase):
+
+    def test_is_word(self):
+        language_model = OneGramLanguageModel()
+        self.assertTrue(language_model.is_word("غزال"))
+        self.assertTrue(language_model.is_word("کیمیا"))
+        self.assertTrue(language_model.is_word("محمد"))
+        self.assertTrue(language_model.is_word("قسطنطنیه"))
+        self.assertTrue(language_model.is_word("سلام"))
+        self.assertFalse(language_model.is_word("سلامز"))
+
+    def test_frequency(self):
+        language_model = OneGramLanguageModel()
+        self.assertGreater(language_model.get_frequency("سلام"), language_model.get_frequency("سلامز"))
+        self.assertEqual(language_model.get_frequency("سلامز"), 0)

@@ -3,6 +3,7 @@ from .tokenizer import PositionalTokenizer
 from .candidate_generator import CandidateGenerator
 from .language_model import OneGramLanguageModel
 
+
 # Create your tests here.
 class PositionalTokenizerTestCase(TestCase):
 
@@ -11,13 +12,14 @@ class PositionalTokenizerTestCase(TestCase):
         text = ""
         tokens = tokenizer.tokenize(text)
         self.assertEqual(tokens, [], msg="tokenized empty text must be an empty list!")
-    
+
     def test_single_word_text(self):
         tokenizer = PositionalTokenizer()
         text = "ریش"
         tokens = tokenizer.tokenize(text)
         expected_result = [(0, 3, "ریش")]
-        self.assertEqual(tokens, expected_result, msg="tokenized single word text must contain a tuple of (0, len(text), word)!")
+        self.assertEqual(tokens, expected_result,
+                         msg="tokenized single word text must contain a tuple of (0, len(text), word)!")
 
     def test_multi_word_text(self):
         tokenizer = PositionalTokenizer()
@@ -37,13 +39,13 @@ class CandidateGeneratorTestCase(TestCase):
         text = ""
         candidates = candidate_generator.generate_deletion_candidates(text)
         self.assertEqual(candidates, [], "No deletion candidates should be generated for empty text!")
-    
+
     def test_empty_text_substitution_candidates(self):
         candidate_generator = CandidateGenerator()
         text = ""
         candidates = candidate_generator.generate_substitution_candidates(text)
         self.assertEqual(candidates, [], "No substitution candidates should be generated for empty text!")
-    
+
     def test_empty_text_transposition_candidates(self):
         candidate_generator = CandidateGenerator()
         text = ""
@@ -57,7 +59,7 @@ class CandidateGeneratorTestCase(TestCase):
         self.assertEqual(candidates,
                          candidate_generator.ALPHABET,
                          "#Alphabet insertion candidates should be generated for empty text!")
-    
+
     def test_empty_text_candidates(self):
         candidate_generator = CandidateGenerator()
         text = ""
@@ -65,27 +67,44 @@ class CandidateGeneratorTestCase(TestCase):
         self.assertEqual(candidates,
                          candidate_generator.ALPHABET,
                          "#Alphabet candidates should be generated for empty text (just for insertion)!")
-    
+
     def test_deletion_candidates(self):
         candidate_generator = CandidateGenerator()
         text = "ریش"
         candidates = set(candidate_generator.generate_deletion_candidates(text))
         expected_result = {"ری", "رش", "یش"}
-        self.assertEqual(candidates, expected_result, "Wrong deletion candidates!\n"+
-                                                      f"text: {text}\n" +
-                                                      f"expected: {expected_result}\n" +
-                                                      f"generated: {candidates}\n")
-    
+        self.assertEqual(candidates, expected_result, "Wrong deletion candidates!\n" +
+                         f"text: {text}\n" +
+                         f"expected: {expected_result}\n" +
+                         f"generated: {candidates}\n")
+
     def test_transposition_candidates(self):
         candidate_generator = CandidateGenerator()
         text = "ریش"
         candidates = set(candidate_generator.generate_transposition_candidates(text))
         expected_result = {"یرش", "رشی"}
-        self.assertEqual(candidates, expected_result, "Wrong deletion candidates!\n"+
-                                                      f"text: {text}\n" +
-                                                      f"expected: {expected_result}\n" +
-                                                      f"generated: {candidates}\n")
-        
+        self.assertEqual(candidates, expected_result, "Wrong deletion candidates!\n" +
+                         f"text: {text}\n" +
+                         f"expected: {expected_result}\n" +
+                         f"generated: {candidates}\n")
+
+    def test_process_text(self):
+        tokenizer = PositionalTokenizer()
+        candidate_generator = CandidateGenerator()
+        language_model = OneGramLanguageModel()
+
+        text = "بذرگ اصت"
+        corrections = candidate_generator.process_text(text, tokenizer, language_model)
+        expected_corrections = [(0, 4, 'بذرگ', ['بزرگ', 'برگ', 'بذر']), (5, 8, 'اصت', ['است', 'اصل', 'افت'])]
+
+        self.assertEqual(len(corrections), len(expected_corrections), "Mismatch in number of corrections!")
+
+        for correction, expected in zip(corrections, expected_corrections):
+            self.assertEqual(correction[0], expected[0], "Start indices do not match!")
+            self.assertEqual(correction[1], expected[1], "End indices do not match!")
+            self.assertEqual(correction[2], expected[2], "Words do not match!")
+            self.assertEqual(correction[3], expected[3], "Candidates do not match!")
+
 
 class OneGramLanguageModelTestCase(TestCase):
 

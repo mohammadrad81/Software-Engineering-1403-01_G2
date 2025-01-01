@@ -19,10 +19,37 @@ def home(request):
 def get_sentence(request):
     if request.method == 'POST':
         sentence = request.POST.get('sentence', '')
-        # Process the sentence here
-        result = {'message': f'Processed sentence: {sentence}'}
-        return JsonResponse(result)
+
+        tokenizer = PositionalTokenizer()
+        candidate_generator = CandidateGenerator()
+        language_model = OneGramLanguageModel()
+        spell_checker = SpellChecker(tokenizer, candidate_generator, language_model)
+
+        corrections = spell_checker.process_text(sentence)
+
+        corrected_text = sentence
+        offset = 0
+        for start, end, word, candidates in corrections:
+            if candidates:
+                replacement = candidates[0]
+                corrected_text = corrected_text[:start + offset] + replacement + corrected_text[end + offset:]
+                offset += len(replacement) - (end - start)
+
+        formatted_corrections = []
+        for start, end, word, candidates in corrections:
+            formatted_corrections.append({
+                'start': start,
+                'end': end,
+                'word': word,
+                'candidates': candidates
+            })
+
+        return JsonResponse({
+            'corrections': formatted_corrections,
+            'correctedText': corrected_text  # Add corrected text to the response
+        })
     return JsonResponse({'error': 'Invalid request method'})
+
 
 @ensure_csrf_cookie
 def get_file(request):
@@ -35,6 +62,7 @@ def get_file(request):
             return JsonResponse(result)
         return JsonResponse({'error': 'Invalid file format'})
     return JsonResponse({'error': 'Invalid request method'})
+
 
 class TextSpellCorrectorAPIView(APIView):
 

@@ -49,3 +49,18 @@ class CandidateGenerator:
         candidates += self.generate_substitution_candidates(word)
         candidates += self.generate_transposition_candidates(word)
         return candidates
+
+    def process_text(self, text: str, tokenizer, language_model):
+        tokens = tokenizer.tokenize(text)
+
+        results = []
+        for start, end, word in tokens:
+            if language_model.is_word(word):
+                continue
+            candidates = self.generate_candidates(word)
+            valid_candidates = [candidate for candidate in candidates if language_model.is_word(candidate)]
+            sorted_candidates = sorted(valid_candidates, key=lambda x: language_model.get_frequency(x), reverse=True)
+            top_candidates = sorted_candidates[:3]
+            results.append((start, end, word, top_candidates))
+
+        return results

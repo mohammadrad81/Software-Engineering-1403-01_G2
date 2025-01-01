@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'group9',
     'group10',
     'registration',
+    'rest_framework',
 
 ]
 

@@ -2,6 +2,7 @@ from django.test import TestCase
 from .tokenizer import PositionalTokenizer
 from .candidate_generator import CandidateGenerator
 from .language_model import OneGramLanguageModel
+from .spell_checker import SpellChecker
 
 
 # Create your tests here.
@@ -94,11 +95,12 @@ class CandidateGeneratorTestCase(TestCase):
         language_model = OneGramLanguageModel()
 
         text = "بذرگ اصت"
-        corrections = candidate_generator.process_text(text, tokenizer, language_model)
+        spell_checker = SpellChecker(tokenizer=tokenizer,
+                                     candidate_generator=candidate_generator,
+                                     language_model=language_model)
+        corrections = spell_checker.process_text(text=text)
         expected_corrections = [(0, 4, 'بذرگ', ['بزرگ', 'برگ', 'بذر']), (5, 8, 'اصت', ['است', 'اصل', 'افت'])]
-
         self.assertEqual(len(corrections), len(expected_corrections), "Mismatch in number of corrections!")
-
         for correction, expected in zip(corrections, expected_corrections):
             self.assertEqual(correction[0], expected[0], "Start indices do not match!")
             self.assertEqual(correction[1], expected[1], "End indices do not match!")

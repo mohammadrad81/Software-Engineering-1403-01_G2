@@ -7,4 +7,5 @@ urlpatterns = [
   path('', views.home, name='group2'),
   path('get-sentence/', views.get_sentence, name='get_sentence'),
   path('get-file/', views.get_file, name='get_file'),
+  path('process-text/', views.TextSpellCorrectorAPIView.as_view(), name='process_text'),
 ] 

@@ -1,5 +1,23 @@
 // JavaScript to handle text and file processing
 document.addEventListener('DOMContentLoaded', function () {
+    const userGuideBtn = document.getElementById("userGuideBtn");
+    const userGuidePopup = document.getElementById("userGuidePopup");
+    const closeBtn = userGuidePopup.querySelector(".close");
+
+    userGuideBtn.onclick = function() {
+        userGuidePopup.style.display = "block";
+    }
+
+    closeBtn.onclick = function() {
+        userGuidePopup.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        if (event.target == userGuidePopup) {
+            userGuidePopup.style.display = "none";
+        }
+    }
+    
     const sentenceForm = document.getElementById('sentenceForm');
     const sentenceInput = document.getElementById('sentence');
 

@@ -21,7 +21,8 @@
                     <textarea id="sentence"
                            name="sentence"
                            placeholder="Enter your sentence here..."
-                           required></textarea>
+                           required
+                           style="width:100%"></textarea>
                     <button type="submit" class="submit-btn">Process Text</button>
                 </div>
             </form>
@@ -63,6 +64,33 @@
             <!-- Corrected Text Section -->
             <div id="correctedTextContainer"></div>
         </section>
+        <section>
+            <button id="userGuideBtn" class="user-guide-btn">راهنمای استفاده</button>
+        </section>
+        <div id="userGuidePopup" class="popup">
+            <div class="popup-content">
+                <span class="close">&times;</span>
+                <h2 class="persian">راهنمای استفاده از سامانه</h2>
+                <p class="persian">
+                    به سامانه اصلاح غلط‌های املایی ریش سفیدان خوش آمدید.<br/>
+                    راهنمای استفاده از سامانه ریش سفیدان:
+                </p>
+                <ol>
+                    <li class="persian">
+                        .متن مورد نظر خود را در جعبه متن مربوطه وارد کرده و روی دکمه "پردازش متن" کلیک نمایید
+                    </li>
+                    <li class="persian">
+                        برای پردازش فایل متنی، روی دکمه "بخش آپلود فایل" کلیک کرده و روی دکمه "انتخاب فایل متنی" کلیک کنید.<br/>
+                        سپس روی دکمه آپلود فایل کلیک کنید.
+                    </li>
+                    <li class="persian">
+                        واژه‌هایی که غلط املایی دارند با رنگ قرمز نمایش داده می‌شوند.<br/>
+                        برای هر واژه دارای غلط املایی، پیشنهاد‌‌ها برای اصلاح نمایش داده می‌شوند.<br/>
+                        در نهایت متن اصلاحی پیشنهادی نمایش داده می‌شود.
+                    </li>
+                </ol>
+            </div>
+        </div>
     </div>
 
     <script src="{% static 'js/main.js' %}"></script>

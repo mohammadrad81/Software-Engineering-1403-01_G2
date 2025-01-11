@@ -1,9 +1,10 @@
 import json
+import os
 
 class OneGramLanguageModel:
     def __init__(self,
                  data: dict[str, int]=None,
-                 file_path: str="./src/group2/cleaned_onegram_lm.json"):
+                 file_path: str="./src/group2/data/cleaned_onegram_lm.json"):
         if data is None:
             with open(file_path, 'r') as f:
                 self.data = json.load(f)

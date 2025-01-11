@@ -1,8 +1,8 @@
 from django.test import TestCase
-from .tokenizer import PositionalTokenizer
-from .candidate_generator import CandidateGenerator
-from .language_model import OneGramLanguageModel
-from .spell_checker import SpellChecker
+from group2.utils.tokenizer import PositionalTokenizer
+from group2.nlp.candidate_generator import CandidateGenerator
+from group2.nlp.language_model import OneGramLanguageModel
+from group2.utils.spell_checker import SpellChecker
 
 
 # Create your tests here.

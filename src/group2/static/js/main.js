@@ -38,19 +38,19 @@ document.addEventListener('DOMContentLoaded', function () {
             const result = await response.json();
             console.log("Server Response:", result);
             // clearPreviousResults();
-            highlightCorrections(result.corrections, result.correctedText);
+            highlightCorrections(result.input_text, result.corrections, result.correctedText);
         } catch (error) {
             console.error('Error:', error);
         }
     });
 
     // Function to clear previous results
-    function highlightCorrections(corrections, correctedText) {
+    function highlightCorrections(input_text, corrections, correctedText) {
         const resultsSection = document.querySelector('.results-section');
         const highlightedInputText = document.getElementById('highlightedInputText');
         const correctedTextContainer = document.getElementById('correctedTextContainer');
         const processedTextContainer = document.getElementById('processedText');
-        const text = sentenceInput.value;
+        const text = input_text
 
         corrections.sort((a, b) => a.start - b.start);
 
@@ -142,8 +142,9 @@ document.addEventListener('DOMContentLoaded', function () {
             });
 
             const result = await response.json();
-            clearPreviousResults();
-            highlightCorrections(result.corrections, result.correctedText);
+            console.log("Server Response:", result);
+
+            highlightCorrections(result.input_text, result.corrections, result.correctedText);
         } catch (error) {
             console.error('Error:', error);
         }

@@ -75,9 +75,9 @@ document.addEventListener('DOMContentLoaded', function () {
         if (processedTextContainer) {
             processedTextContainer.innerHTML = `
                 <div class="result-box">
-                    <h3>Processed Text:</h3>
+                    <h3>غلط های املایی:</h3>
                     <p class="highlighted-text">${highlightedText}</p>
-                    <h4>Corrections:</h4>
+                    <h4>پیشنهادهای اصلاح:</h4>
                     <ul>
                         ${corrections.map(({ word, candidates }) => `
                             <li>
@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (correctedTextContainer) {
             correctedTextContainer.innerHTML = `
                 <div class="result-box">
-                    <h3>Corrected Text:</h3>
+                    <h3>متن پیشنهادی اصلاح شده:</h3>
                     <p class="corrected-text">${correctedText}</p>
                 </div>
             `;

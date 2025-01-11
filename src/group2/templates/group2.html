@@ -4,14 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Text & File Processing</title>
+    <title>اصلاح غلط املایی ریش سفیدان</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <!-- Add Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
-        <h1>Text & File Processing</h1>
+        <h1>اصلاح غلط املایی ریش سفیدان</h1>
 
         <!-- Text Input Section -->
         <section class="text-input-section">
@@ -20,17 +20,17 @@
                 <div class="input-group">
                     <textarea id="sentence"
                            name="sentence"
-                           placeholder="Enter your sentence here..."
+                           placeholder="متن خود را وارد نمایید..."
                            required
                            style="width:100%"></textarea>
-                    <button type="submit" class="submit-btn">Process Text</button>
+                    <button type="submit" class="submit-btn">پردازش متن</button>
                 </div>
             </form>
         </section>
 
         <!-- File Upload Section -->
         <section class="file-upload-section">
-            <button id="toggleUpload" class="toggle-btn">Toggle File Upload</button>
+            <button id="toggleUpload" class="toggle-btn">پردازش فایل</button>
 
             <div id="uploadArea" class="upload-area hidden">
                 <form id="fileForm" method="POST" action="{% url 'group2:get_file' %}" enctype="multipart/form-data">
@@ -42,10 +42,10 @@
                                accept=".txt"
                                class="file-input">
                         <label for="fileInput" class="file-label">
-                            Choose a .txt file
+                            انتخاب فایل متنی
                         </label>
                     </div>
-                    <button type="submit" class="upload-btn">Upload File</button>
+                    <button type="submit" class="upload-btn">بارگذاری فایل</button>
                 </form>
                 <div id="errorMessage" class="error-message"></div>
             </div>
@@ -54,10 +54,10 @@
         <!-- Results Section -->
         <section class="results-section">
             <!-- Highlighted Input Text -->
-            <div id="highlightedInputTextContainer">
-                <h3>Highlighted Input Text:</h3>
-                <p id="highlightedInputText" class="highlighted-input"></p>
-            </div>
+{#            <div id="highlightedInputTextContainer">#}
+{#                <h3>پیشنهادهای ویرایشی:</h3>#}
+{#                <p id="highlightedInputText" class="highlighted-input"></p>#}
+{#            </div>#}
 
             <!-- Processed Text -->
             <div id="processedText"></div>
@@ -80,7 +80,7 @@
                         .متن مورد نظر خود را در جعبه متن مربوطه وارد کرده و روی دکمه "پردازش متن" کلیک نمایید
                     </li>
                     <li class="persian">
-                        برای پردازش فایل متنی، روی دکمه "بخش آپلود فایل" کلیک کرده و روی دکمه "انتخاب فایل متنی" کلیک کنید.<br/>
+                        برای پردازش فایل متنی، روی دکمه "تغییر وضعیت آپلود" کلیک کرده و روی دکمه "انتخاب فایل متنی" کلیک کنید.<br/>
                         سپس روی دکمه آپلود فایل کلیک کنید.
                     </li>
                     <li class="persian">

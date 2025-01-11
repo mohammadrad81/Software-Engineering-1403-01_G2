@@ -18,11 +18,10 @@
             <form id="sentenceForm" method="POST" action="{% url 'group2:get_sentence' %}">
                 {% csrf_token %}
                 <div class="input-group">
-                    <input type="text"
-                           id="sentence"
+                    <textarea id="sentence"
                            name="sentence"
                            placeholder="Enter your sentence here..."
-                           required>
+                           required></textarea>
                     <button type="submit" class="submit-btn">Process Text</button>
                 </div>
             </form>
@@ -53,12 +52,16 @@
 
         <!-- Results Section -->
         <section class="results-section">
-            {% if result %}
-                <div class="result-box">
-                    <h3>Result:</h3>
-                    <p>{{ result }}</p>
-                </div>
-            {% endif %}
+            <!-- Highlighted Input Text -->
+            <div id="highlightedInputTextContainer">
+                <h3>Highlighted Input Text:</h3>
+                <p id="highlightedInputText" class="highlighted-input"></p>
+            </div>
+
+            <!-- Processed Text -->
+            <div id="processedText"></div>
+            <!-- Corrected Text Section -->
+            <div id="correctedTextContainer"></div>
         </section>
     </div>
 

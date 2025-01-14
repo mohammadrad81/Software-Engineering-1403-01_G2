@@ -46,45 +46,32 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Function to clear previous results
     function highlightCorrections(input_text, corrections, correctedText) {
-        const resultsSection = document.querySelector('.results-section');
-        const highlightedInputText = document.getElementById('highlightedInputText');
-        const correctedTextContainer = document.getElementById('correctedTextContainer');
         const processedTextContainer = document.getElementById('processedText');
-        const text = input_text
+        const correctedTextContainer = document.getElementById('correctedTextContainer');
+        const text = input_text;
 
         corrections.sort((a, b) => a.start - b.start);
 
         let highlightedText = "";
         let lastIndex = 0;
 
-        corrections.forEach(({ start, end, word, candidates }) => {
+        corrections.forEach(({ start, end, word, candidates }, index) => {
             highlightedText += text.slice(lastIndex, start);
 
-            const span = `<span class="error-word" title="پیشنهادها: ${candidates.join(', ')}">${word}</span>`;
-            highlightedText += span;
+            const suggestions = candidates.map((candidate, i) =>
+                `<span class="suggestion" data-index="${index}" data-candidate="${candidate}">${candidate}</span>`).join(', ');
 
+            highlightedText += `<span class="error-word">${word} (${suggestions})</span>`;
             lastIndex = end;
         });
 
         highlightedText += text.slice(lastIndex);
-
-        if (highlightedInputText) {
-            highlightedInputText.innerHTML = highlightedText;
-        }
 
         if (processedTextContainer) {
             processedTextContainer.innerHTML = `
                 <div class="result-box">
                     <h3>غلط های املایی:</h3>
                     <p class="highlighted-text">${highlightedText}</p>
-                    <h4>پیشنهادهای اصلاح:</h4>
-                    <ul>
-                        ${corrections.map(({ word, candidates }) => `
-                            <li>
-                                <strong>${word}</strong>: پیشنهادها - ${candidates.join(', ')}
-                            </li>
-                        `).join('')}
-                    </ul>
                 </div>
             `;
         }
@@ -93,13 +80,36 @@ document.addEventListener('DOMContentLoaded', function () {
             correctedTextContainer.innerHTML = `
                 <div class="result-box">
                     <h3>متن پیشنهادی اصلاح شده:</h3>
-                    <p class="corrected-text">${correctedText}</p>
+                    <p id="correctedText" class="corrected-text">${correctedText}</p>
                 </div>
             `;
         }
+
+        document.querySelectorAll('.suggestion').forEach(suggestion => {
+            suggestion.addEventListener('click', function () {
+                const index = parseInt(this.dataset.index, 10);
+                const candidate = this.dataset.candidate;
+
+                corrections[index].replacement = candidate;
+                const updatedText = applyCorrections(input_text, corrections);
+                document.getElementById('correctedText').innerText = updatedText;
+            });
+        });
     }
 
+    function applyCorrections(text, corrections) {
+        let resultText = text;
+        let offset = 0;
 
+        corrections.forEach(({ start, end, replacement }) => {
+            if (replacement) {
+                resultText = resultText.slice(0, start + offset) + replacement + resultText.slice(end + offset);
+                offset += replacement.length - (end - start);
+            }
+        });
+
+        return resultText;
+    }
 
     // Toggle File Upload Section
     const toggleBtn = document.getElementById('toggleUpload');

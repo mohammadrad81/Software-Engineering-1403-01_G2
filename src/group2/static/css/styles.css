@@ -222,3 +222,13 @@ input[type="text"]:focus {
     direction: rtl;
     text-align: right;
 }
+
+.suggestion {
+    color: #2c3e50;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.suggestion:hover {
+    color: #4a90e2;
+}

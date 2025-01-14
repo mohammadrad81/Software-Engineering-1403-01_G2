@@ -31,12 +31,13 @@ def process(text):
 
     formatted_corrections = []
     for start, end, word, candidates in corrections:
-        formatted_corrections.append({
-            'start': start,
-            'end': end,
-            'word': word,
-            'candidates': candidates
-        })
+        if len(candidates):
+            formatted_corrections.append({
+                'start': start,
+                'end': end,
+                'word': word,
+                'candidates': candidates
+            })
 
     return JsonResponse({
         'input_text': text,
